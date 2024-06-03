@@ -1,0 +1,79 @@
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 10px;
+}
+header{
+    color: white;
+    font-family: monospace;
+    font-size: 50px;
+    text-align: center;
+    margin-top: 30px;
+    font-weight: bold;
+}
+h1{
+    font-size: 70px;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    row-gap: 80px      ;
+    width: 500px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+label{
+    color: white;
+    background-color: rgb(1, 1, 142);
+    font-family: monospace;
+    font-size: 17px;
+    padding: 15px;
+    text-align: center;
+    transition: 0.3s;
+    border-radius: 10px;
+    margin: 50px;
+}
+
+label:hover{
+    background-color: rgb(3, 3, 202);
+}
+
+button{
+    padding: 12px;
+    background-color: rgb(1, 1, 142);
+    font-family: monospace;
+    color: white;
+    font-size: 17px;
+    padding-left: 25px;
+    padding-right: 25px;
+    border-radius: 10px;
+    border: none;
+}
+
+button:hover{
+    border: solid white 1px;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    align-items: center;
+}
+
+#result{
+    color: white;
+    font-size: 25px;
+    font-family: monospace;
+}
+
+drop{
+    size: 10px;
+}

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="icon" href=".\static\images\bc2.jpg" type="image/x-icon">
+    <title>Plant disease detection</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+       
+        select#disease-select {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            width: 200px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 10px top 50%;
+            cursor: pointer;
+        }
+
+        select#disease-select option {
+            font-size: 14px; 
+        }
+
+
+        form#prediction-form {
+            margin-bottom: 20px; 
+        }
+
+ 
+        h2 {
+            color: black;
+            display: none; /* Initially hide the text */
+        }
+    </style>
+</head>
+<body style="background-image: url('{{ url_for('static', filename='images/background.jpeg') }}'); background-size: cover; background-position: 0 -120px;">
+    <header>
+        <h1 class="drop">Plant disease detection</h1>
+    </header>
+    <main>
+        <div class="container">
+            <form action="/predict" method="POST" enctype="multipart/form-data" id="prediction-form">
+                <label for="file-upload">
+                    <input id="file-upload" type="file" name="file" accept=".jpg, .jpeg, .png" onchange="validateImage(this)">
+                    Choose File 
+                </label>
+                <button type="submit">Predict</button>
+            </form>
+            <div id="result" class="result-container">
+                <h2 id="predicted-disease">Predicted disease is <span id="disease-text"></span></h2>
+            </div>
+        </div>
+    </main>
+    <script>
+        document.getElementById('prediction-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+
+            fetch('/predict', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const predictedDiseaseElement = document.getElementById('predicted-disease');
+                const diseaseTextElement = document.getElementById('disease-text');
+                diseaseTextElement.textContent = data.disease;
+                predictedDiseaseElement.style.display = 'block'; 
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error processing your request. Please try again.');
+            });
+        });
+
+        function validateImage(input) {
+            const file = input.files[0];
+            if (file) {
+                const fileSize = file.size / 1024 / 1024; 
+                const fileType = file.type;
+                const allowedTypes = ['image/jpeg', 'image/png'];
+
+                if (fileSize > 5) {
+                    alert('File size should not exceed 5MB.');
+                    input.value = '';
+                } else if (!allowedTypes.includes(fileType)) {
+                    alert('Only JPG, JPEG, and PNG files are allowed.');
+                    input.value = '';
+                }
+            }
+        }
+    </script>
+</body>
+</html>
